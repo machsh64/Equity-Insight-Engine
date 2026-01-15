@@ -48,7 +48,7 @@ class AIPromptGenerator:
             )
         elif company_type == CompanyType.MANUFACTURING:
             return AIPromptGenerator._manufacturing_quarter_prompt(
-                quarter, quarter_data, labels
+                company_name, quarter, quarter_data, labels
             )
         else:
             return AIPromptGenerator._generic_quarter_prompt(
@@ -85,7 +85,7 @@ ROIC={roic}%  WACC={wacc}%  ROIC-WACC={roic_wacc}%
 - 语言客观、严谨，200字以内"""
     
     @staticmethod
-    def _tech_mature_quarter_prompt(quarter: str, data: Dict, labels: List[str]) -> str:
+    def _tech_mature_quarter_prompt(company_name: str, quarter: str, data: Dict, labels: List[str]) -> str:
         roic = data.get("roic", "N/A")
         wacc = data.get("wacc", "N/A")
         roic_wacc = (roic - wacc) if (roic != "N/A" and wacc != "N/A") else "N/A"
@@ -114,7 +114,7 @@ ROIC={roic}%  WACC={wacc}%  ROIC-WACC={roic_wacc}%
 - 语言客观、严谨，200字以内"""
     
     @staticmethod
-    def _pharma_innovation_quarter_prompt(quarter: str, data: Dict, labels: List[str]) -> str:
+    def _pharma_innovation_quarter_prompt(company_name: str, quarter: str, data: Dict, labels: List[str]) -> str:
         return f"""你是一名专注创新药领域的长期投资分析师。
 公司类型：医药创新型
 
@@ -137,7 +137,7 @@ ROIC={data.get('roic', 'N/A')}%  WACC={data.get('wacc', 'N/A')}%  PB={data.get('
 - 客观分析，200字以内"""
     
     @staticmethod
-    def _pharma_mature_quarter_prompt(quarter: str, data: Dict, labels: List[str]) -> str:
+    def _pharma_mature_quarter_prompt(company_name: str, quarter: str, data: Dict, labels: List[str]) -> str:
         return f"""你是一名专注成熟制药公司的长期投资分析师。
 公司类型：医药成熟型
 
@@ -160,7 +160,7 @@ ROE={data.get('roe', 'N/A')}%  自由现金流率={data.get('fcf_margin', 'N/A')
 - 客观分析，200字以内"""
     
     @staticmethod
-    def _financial_quarter_prompt(quarter: str, data: Dict, labels: List[str]) -> str:
+    def _financial_quarter_prompt(company_name: str, quarter: str, data: Dict, labels: List[str]) -> str:
         return f"""你是一名专注金融行业的长期投资分析师。
 公司类型：金融型
 
@@ -182,7 +182,7 @@ PB={data.get('pb', 'N/A')}  ROE={data.get('roe', 'N/A')}%  自由现金流率={d
 - 客观分析，200字以内"""
     
     @staticmethod
-    def _manufacturing_quarter_prompt(quarter: str, data: Dict, labels: List[str]) -> str:
+    def _manufacturing_quarter_prompt(company_name: str, quarter: str, data: Dict, labels: List[str]) -> str:
         return f"""你是一名专注制造业的长期投资分析师。
 公司类型：制造业型
 
