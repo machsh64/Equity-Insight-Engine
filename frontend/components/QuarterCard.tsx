@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Quarter, SystemAnalysis, QuarterAIAnalysis } from '@/lib/types';
 import EditQuarterModal from './EditQuarterModal';
 import { quarterApi } from '@/lib/api';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 interface Props {
   quarter: Quarter & {
@@ -208,7 +211,7 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
             {quarter.ai_analysis && (
               <button
                 onClick={() => setShowAIAnalysis(!showAIAnalysis)}
-                className="text-sm text-blue-600 hover:text-blue-800"
+                className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
               >
                 {showAIAnalysis ? '收起' : '查看AI分析'}
               </button>
@@ -222,14 +225,32 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
             </button>
           </div>
         </div>
+          
+        {/* 有AI分析且展开时：完美渲染 Markdown */}
         {quarter.ai_analysis && showAIAnalysis && (
-          <div className="mt-2 p-3 bg-blue-50 rounded text-sm leading-relaxed text-gray-900">
-            {quarter.ai_analysis.analysis_text}
+          <div className="mt-3 overflow-hidden rounded-lg border border-blue-100 bg-blue-50/70">
+            <div className="prose prose-sm max-w-none p-5 text-gray-800 
+                            prose-headings:font-semibold prose-headings:text-gray-900
+                            prose-strong:text-gray-900 prose-em:text-blue-700
+                            prose-ul:space-y-1 prose-ol:space-y-1
+                            prose-li:my-0.5
+                            prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded prose-pre:p-3
+                            prose-table:text-xs prose-table:border prose-table:border-gray-300
+                            prose-th:bg-gray-100 prose-th:text-left prose-td:py-2 prose-td:px-3">
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]} 
+                rehypePlugins={[rehypeRaw]}
+              >
+                {quarter.ai_analysis.analysis_text}
+              </ReactMarkdown>
+            </div>
           </div>
         )}
+
+        {/* 无AI分析时 */}
         {!quarter.ai_analysis && (
-          <div className="mt-2 p-3 bg-gray-50 rounded text-sm text-gray-500">
-            暂无AI分析，点击"生成AI分析"按钮生成
+          <div className="mt-3 p-5 bg-gray-50 rounded-lg border border-gray-200 text-sm text-gray-500 text-center">
+            暂无AI分析，点击右上角「生成AI分析」按钮即可生成
           </div>
         )}
       </div>
