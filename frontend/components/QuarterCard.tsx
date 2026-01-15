@@ -1,0 +1,214 @@
+'use client';
+
+import { useState } from 'react';
+import { Quarter, SystemAnalysis, QuarterAIAnalysis } from '@/lib/types';
+import EditQuarterModal from './EditQuarterModal';
+import { quarterApi } from '@/lib/api';
+
+interface Props {
+  quarter: Quarter & {
+    system_analysis?: SystemAnalysis;
+    ai_analysis?: QuarterAIAnalysis;
+  };
+  onUpdate: () => void;
+}
+
+export default function QuarterCard({ quarter, onUpdate }: Props) {
+  const [showSystemSummary, setShowSystemSummary] = useState(false);
+  const [showAIAnalysis, setShowAIAnalysis] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [regeneratingAI, setRegeneratingAI] = useState(false);
+
+  const handleRegenerateAI = async () => {
+    try {
+      setRegeneratingAI(true);
+      await quarterApi.generateAI(quarter.id);
+      // 重新加载数据
+      onUpdate();
+    } catch (error) {
+      console.error('重新生成AI分析失败:', error);
+      alert('重新生成AI分析失败，请稍后重试');
+    } finally {
+      setRegeneratingAI(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="bg-white rounded-lg shadow-md p-6 text-gray-900">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-xl font-bold text-gray-900">{quarter.quarter}</h3>
+          <div className="flex items-center gap-3">
+            {quarter.system_analysis?.labels && quarter.system_analysis.labels.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {quarter.system_analysis.labels.map((label, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            )}
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+            >
+              编辑
+            </button>
+          </div>
+        </div>
+
+        {/* 关键指标表格：两行展示（第一行指标，第二行数值） */}
+        <div className="mb-4 overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <tbody>
+              <tr className="bg-gray-50">
+                <td className="px-4 py-2 text-xs text-gray-500">指标</td>
+                {quarter.pe !== null && quarter.pe !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">PE</td>
+                )}
+                {quarter.pb !== null && quarter.pb !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">PB</td>
+                )}
+                {quarter.ps !== null && quarter.ps !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">PS</td>
+                )}
+                {quarter.roic !== null && quarter.roic !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">ROIC</td>
+                )}
+                {quarter.wacc !== null && quarter.wacc !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">WACC</td>
+                )}
+                {quarter.roe !== null && quarter.roe !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">ROE</td>
+                )}
+                {quarter.fcf_margin !== null && quarter.fcf_margin !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">FCF%</td>
+                )}
+                {quarter.capex_ratio !== null && quarter.capex_ratio !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-700">CapEx%</td>
+                )}
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-xs text-gray-500">数值</td>
+                {quarter.pe !== null && quarter.pe !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">{quarter.pe.toFixed(2)}</td>
+                )}
+                {quarter.pb !== null && quarter.pb !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">{quarter.pb.toFixed(2)}</td>
+                )}
+                {quarter.ps !== null && quarter.ps !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">{quarter.ps.toFixed(2)}</td>
+                )}
+                {quarter.roic !== null && quarter.roic !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">
+                    {quarter.roic.toFixed(2)}%
+                  </td>
+                )}
+                {quarter.wacc !== null && quarter.wacc !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">
+                    {quarter.wacc.toFixed(2)}%
+                  </td>
+                )}
+                {quarter.roe !== null && quarter.roe !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">
+                    {quarter.roe.toFixed(2)}%
+                  </td>
+                )}
+                {quarter.fcf_margin !== null && quarter.fcf_margin !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">
+                    {quarter.fcf_margin.toFixed(2)}%
+                  </td>
+                )}
+                {quarter.capex_ratio !== null && quarter.capex_ratio !== undefined && (
+                  <td className="px-4 py-2 text-center text-gray-900">
+                    {quarter.capex_ratio.toFixed(2)}%
+                  </td>
+                )}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      {/* 系统分析 */}
+      {quarter.system_analysis && (
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="font-semibold text-gray-700">系统分析</h4>
+            <button
+              onClick={() => setShowSystemSummary(!showSystemSummary)}
+              className="text-sm text-blue-600 hover:text-blue-800"
+            >
+              {showSystemSummary ? '收起' : '展开详细'}
+            </button>
+          </div>
+          {showSystemSummary && quarter.system_analysis.system_summary && (
+            <div className="mt-2 p-3 bg-gray-50 rounded text-sm whitespace-pre-line">
+              {quarter.system_analysis.system_summary}
+            </div>
+          )}
+          <div className="mt-2 flex gap-4 text-sm">
+            {quarter.system_analysis.quality_score !== null && (
+              <span>质量: {quarter.system_analysis.quality_score.toFixed(1)}</span>
+            )}
+            {quarter.system_analysis.valuation_score !== null && (
+              <span>估值: {quarter.system_analysis.valuation_score.toFixed(1)}</span>
+            )}
+            {quarter.system_analysis.trend_score !== null && (
+              <span>趋势: {quarter.system_analysis.trend_score.toFixed(1)}</span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* AI分析 */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <h4 className="font-semibold text-gray-700">AI分析</h4>
+          <div className="flex items-center gap-3">
+            {quarter.ai_analysis && (
+              <button
+                onClick={() => setShowAIAnalysis(!showAIAnalysis)}
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                {showAIAnalysis ? '收起' : '查看AI分析'}
+              </button>
+            )}
+            <button
+              onClick={handleRegenerateAI}
+              disabled={regeneratingAI}
+              className="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {regeneratingAI ? '生成中...' : quarter.ai_analysis ? '重新分析' : '生成AI分析'}
+            </button>
+          </div>
+        </div>
+        {quarter.ai_analysis && showAIAnalysis && (
+          <div className="mt-2 p-3 bg-blue-50 rounded text-sm leading-relaxed text-gray-900">
+            {quarter.ai_analysis.analysis_text}
+          </div>
+        )}
+        {!quarter.ai_analysis && (
+          <div className="mt-2 p-3 bg-gray-50 rounded text-sm text-gray-500">
+            暂无AI分析，点击"生成AI分析"按钮生成
+          </div>
+        )}
+      </div>
+      </div>
+
+      {showEditModal && (
+        <EditQuarterModal
+          quarter={quarter}
+          onClose={() => setShowEditModal(false)}
+          onSuccess={() => {
+            setShowEditModal(false);
+            onUpdate();
+          }}
+        />
+      )}
+    </>
+  );
+}
+
