@@ -144,20 +144,60 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
               {showSystemSummary ? '收起' : '展开详细'}
             </button>
           </div>
+      
           {showSystemSummary && quarter.system_analysis.system_summary && (
             <div className="mt-2 p-3 bg-gray-50 rounded text-sm whitespace-pre-line">
               {quarter.system_analysis.system_summary}
             </div>
           )}
-          <div className="mt-2 flex gap-4 text-sm">
+
+          <div className="mt-2 flex gap-6 text-sm items-center">
+            {/* 质量得分 + tooltip */}
             {quarter.system_analysis.quality_score !== null && (
-              <span>质量: {quarter.system_analysis.quality_score.toFixed(1)}</span>
+              <div className="group relative inline-flex items-center gap-1">
+                <span>质量: {quarter.system_analysis.quality_score.toFixed(1)}</span>
+                <span className="text-xs text-gray-500 cursor-help">?</span>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
+                  <div className="font-semibold mb-1">质量得分解读（0-100）</div>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li><strong>80-100</strong>：高质量 — 强劲价值创造（高ROIC、毛利率、FCF）</li>
+                    <li><strong>50-80</strong>：中等 — 基本面稳定但价值创造有限</li>
+                    <li><strong>0-50</strong>：低质量 — 盈利能力弱或扩张早期</li>
+                  </ul>
+                </div>
+              </div>
             )}
+
+            {/* 估值得分 + tooltip */}
             {quarter.system_analysis.valuation_score !== null && (
-              <span>估值: {quarter.system_analysis.valuation_score.toFixed(1)}</span>
+              <div className="group relative inline-flex items-center gap-1">
+                <span>估值: {quarter.system_analysis.valuation_score.toFixed(1)}</span>
+                <span className="text-xs text-gray-500 cursor-help">?</span>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
+                  <div className="font-semibold mb-1">估值状态解读（越高越便宜）</div>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li><strong>70-100</strong>：低估值 — 吸引价值投资者</li>
+                    <li><strong>40-70</strong>：中等估值 — 合理但无明显安全边际</li>
+                    <li><strong>0-40</strong>：高估值 — 成长溢价，常见于科技高峰期</li>
+                  </ul>
+                </div>
+              </div>
             )}
+
+            {/* 趋势得分 + tooltip */}
             {quarter.system_analysis.trend_score !== null && (
-              <span>趋势: {quarter.system_analysis.trend_score.toFixed(1)}</span>
+              <div className="group relative inline-flex items-center gap-1">
+                <span>趋势: {quarter.system_analysis.trend_score.toFixed(1)}</span>
+                <span className="text-xs text-gray-500 cursor-help">?</span>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
+                  <div className="font-semibold mb-1">趋势得分解读（0-100）</div>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li><strong>70-100</strong>：积极趋势 — 指标显著改善</li>
+                    <li><strong>30-70</strong>：中性 — 变化较小或混合</li>
+                    <li><strong>0-30</strong>：走弱 — 基本面恶化，需警惕</li>
+                  </ul>
+                </div>
+              </div>
             )}
           </div>
         </div>
