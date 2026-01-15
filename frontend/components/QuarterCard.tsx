@@ -156,7 +156,6 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
             {quarter.system_analysis.quality_score !== null && (
               <div className="group relative inline-flex items-center gap-1">
                 <span>质量: {quarter.system_analysis.quality_score.toFixed(1)}</span>
-                <span className="text-xs text-gray-500 cursor-help">?</span>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
                   <div className="font-semibold mb-1">质量得分解读（0-100）</div>
                   <ul className="list-disc pl-4 space-y-1">
@@ -172,7 +171,6 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
             {quarter.system_analysis.valuation_score !== null && (
               <div className="group relative inline-flex items-center gap-1">
                 <span>估值: {quarter.system_analysis.valuation_score.toFixed(1)}</span>
-                <span className="text-xs text-gray-500 cursor-help">?</span>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
                   <div className="font-semibold mb-1">估值状态解读（越高越便宜）</div>
                   <ul className="list-disc pl-4 space-y-1">
@@ -188,7 +186,6 @@ export default function QuarterCard({ quarter, onUpdate }: Props) {
             {quarter.system_analysis.trend_score !== null && (
               <div className="group relative inline-flex items-center gap-1">
                 <span>趋势: {quarter.system_analysis.trend_score.toFixed(1)}</span>
-                <span className="text-xs text-gray-500 cursor-help">?</span>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-80 p-3 bg-gray-800 text-white text-xs rounded shadow-lg z-10 pointer-events-none">
                   <div className="font-semibold mb-1">趋势得分解读（0-100）</div>
                   <ul className="list-disc pl-4 space-y-1">
