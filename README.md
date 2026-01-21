@@ -15,7 +15,7 @@
 ![主页](https://free.boltp.com/2026/01/21/69704cf15e501.webp)
 
 ### 详情
-![详情](https://free.boltp.com/2026/01/21/6970a01ee7eb0.webp)
+![详情](https://free.boltp.com/2026/01/21/6970a36e4cb59.webp)
 
 
 ## 系统边界
