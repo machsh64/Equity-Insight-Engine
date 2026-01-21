@@ -12,10 +12,10 @@
 ## 参考图例
 
 ### 主页
-![主页](https://img.cdn1.vip/i/6968a7a4a413f_1768466340.webp)
+![主页](https://free.boltp.com/2026/01/21/69704cf15e501.webp)
 
 ### 详情
-![详情](https://img.cdn1.vip/i/6968a7a4c17b9_1768466340.webp)
+![详情](https://free.boltp.com/2026/01/21/69704cf278e72.webp)
 
 
 ## 系统边界
