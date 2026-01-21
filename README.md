@@ -104,7 +104,7 @@ npm run dev
 docker compose build
 
 # 运行
-docker compsoe up -d 
+docker compose up -d 
 ````
 
 ## 项目结构
