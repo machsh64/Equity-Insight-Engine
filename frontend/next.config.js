@@ -1,7 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-}
+  async rewrites() {
+    if (!process.env.API_PROXY_TARGET) {
+      throw new Error('API_PROXY_TARGET is not defined');
+    }
 
-module.exports = nextConfig
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.API_PROXY_TARGET}/:path*`,
+      },
+    ];
+  },
+};
 
+module.exports = nextConfig;
