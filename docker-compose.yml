@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: eie-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    env_file:
+      - ./backend/.env
+    networks:
+      - eie-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: eie-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # 前端在客户端需要调用后端，使用 NEXT_PUBLIC_API_BASE_URL 前缀使其在浏览器端可用
+      # 默认指向服务名 backend（docker compose 内部 DNS），如果后端在其它主机请改为实际地址
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://backend:8000}
+    depends_on:
+      - backend
+    networks:
+      - eie-network
+
+networks:
+  eie-network:
+    driver: bridge

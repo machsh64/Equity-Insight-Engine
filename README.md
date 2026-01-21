@@ -96,6 +96,17 @@ npm run dev
 
 访问 http://localhost:3000 查看应用。
 
+### 4. Docker部署
+```bash
+# 首先填写 backend/.env 配置文件
+
+# 构建项目
+docker compose build
+
+# 运行
+docker compsoe up -d 
+````
+
 ## 项目结构
 
 ```
