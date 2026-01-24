@@ -130,10 +130,6 @@ Equity-Insight-Engine/
 └── README.md
 ```
 
-## API文档
-
-后端运行后，访问 http://localhost:8000/docs 查看Swagger API文档。
-
 ## 使用说明
 
 1. **添加公司**：在首页点击"添加股票"，输入ticker、公司名称和公司类型
