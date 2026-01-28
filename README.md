@@ -15,7 +15,7 @@
 ![主页](https://free.boltp.com/2026/01/21/69704cf15e501.webp)
 
 ### 详情
-![详情](https://free.boltp.com/2026/01/21/69704cf278e72.webp)
+![详情](https://free.boltp.com/2026/01/21/6970a36e4cb59.webp)
 
 
 ## 系统边界
@@ -129,10 +129,6 @@ Equity-Insight-Engine/
 │   └── schema.sql         # 数据库Schema
 └── README.md
 ```
-
-## API文档
-
-后端运行后，访问 http://localhost:8000/docs 查看Swagger API文档。
 
 ## 使用说明
 
