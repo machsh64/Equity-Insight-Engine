@@ -140,7 +140,10 @@ Equity-Insight-Engine/
 2. **添加季度数据**：进入公司详情页，点击"新增季度"，输入财务数据
 3. **查看分析**：系统会自动计算系统分析结果并生成AI分析
 4. **综合判断**：当有4个或更多季度数据时，系统会生成综合AI分析
-5. **季度数据获取**: 季度数据获取可以通过grok等模型官网拉取检索，参照提示词如下
+
+## 季度数据获取途径 
+ -  通过 [Quarterly_Stock_Fundamentals_Tracker](https://github.com/machsh64/Quarterly_Stock_Fundamentals_Tracker.git) 计算得出 （推荐，数据经过财报源头，通过统一口径准确公式得出）
+ -  季度数据获取可以通过grok等模型官网拉取检索，参照提示词如下 （不推荐：因部分数据涉及计算,ai提供的数据来源以及多次计算时无法统一计算口径，可能会造成数据误差）
 ```txt
 你是一个专业的金融数据检索助手，请基于公开、可信的数据来源
 （如公司 10-Q / 10-K 财报、Macrotrends、TIKR、Gurufocus、SeekingAlpha 等）
